@@ -1,21 +1,14 @@
-function permuteUnique(nums) {
-  const result = [];
-  nums.sort((a, b) => a - b);
-  backtrack([], new Array(nums.length).fill(false));
-  return result;
-  function backtrack(current, used) {
-    if (current.length === nums.length) {
-      result.push([...current]);
-      return;
-    }
-    for (let i = 0; i < nums.length; i++) {
-      if (used[i] || (i > 0 && nums[i] === nums[i - 1] && !used[i - 1]))
-        continue;
-      current.push(nums[i]);
-      used[i] = true;
-      backtrack(current, used);
-      current.pop();
-      used[i] = false;
+function uniquePathsWithObstacles(obstacleGrid) {
+  const m = obstacleGrid.length;
+  const n = obstacleGrid[0].length;
+  const dp = Array.from(Array(m), () => Array(n).fill(0));
+  if (obstacleGrid[0][0] === 0) dp[0][0] = 1;
+  for (let i = 0; i < m; i++) {
+    for (let j = 0; j < n; j++) {
+      if (obstacleGrid[i][j] === 1) continue;
+      if (i > 0) dp[i][j] += dp[i - 1][j];
+      if (j > 0) dp[i][j] += dp[i][j - 1];
     }
   }
+  return dp[m - 1][n - 1];
 }
