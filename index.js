@@ -1,12 +1,14 @@
-function moveZeroes(nums) {
-  let index = 0;
-  for (let i = 0; i < nums.length; i++) {
-    if (nums[i] !== 0) {
-      nums[index++] = nums[i];
+function rob(nums) {
+  if (nums.length === 1) return nums[0];
+  const robRange = (start, end) => {
+    let prevMax = 0;
+    let currMax = 0;
+    for (let i = start; i <= end; i++) {
+      const temp = currMax;
+      currMax = Math.max(currMax, prevMax + nums[i]);
+      prevMax = temp;
     }
-  }
-  for (let i = index; i < nums.length; i++) {
-    nums[i] = 0;
-  }
-  return nums;
+    return currMax;
+  };
+  return Math.max(robRange(0, nums.length - 2), robRange(1, nums.length - 1));
 }
